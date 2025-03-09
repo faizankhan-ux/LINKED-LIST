@@ -48,11 +48,65 @@ Node* Insert_BF_head(Node* head , int ele){
      return temp;
 }
 
+Node* Insert_BF_tail(Node* head, int ele){
+     if(head == NULL) return new Node(ele);
+     if(head->next == nullptr){
+         return Insert_BF_head(head,ele);
+     }
+
+     Node* temp = head;
+     while(temp->next != nullptr) temp = temp->next;
+
+    
+     Node* prev = temp->prev;
+     Node* X = new Node(ele , temp , prev);
+     prev->next = X;
+
+     return head;
+
+}
+
+Node* Insert_BF_kth(Node* head , int ele , int k){
+     if(head == NULL) return nullptr;
+     if(k == 1) return Insert_BF_head(head,ele);
+
+     int count = 0;
+     Node* mover = head;
+     while(mover){
+          count++;
+          if(count == k) break;
+          mover = mover->next;
+     }
+     Node* back = mover->prev;
+     Node* Knode = new Node(ele,mover,back);
+     back->next = Knode;
+     mover->prev = Knode;
+     return head;
+}
+
+void Insert_BF_Node(Node* Tnode,int ele){
+     if(Tnode == NULL) return ;
+
+     Node* back = Tnode->prev;
+    
+    Node* newNode = new Node(ele,Tnode,back);
+
+     back->next = newNode;
+     Tnode->prev = newNode;
+     return;
+    
+
+   
+}
+
 int main(){
      int arr[7] = {2,4,6,8,10};
      Node* head = Array_to_DLL(arr,5);
 
-     head = Insert_BF_head(head , 1);
+     // head = Insert_BF_head(head , 1);
+     // head = Insert_BF_tail(head , 9);
+     // head = Insert_BF_kth(head , 100 ,1);
+     Insert_BF_Node(head->next->next->next->next , 34);
 
      Print(head);
 

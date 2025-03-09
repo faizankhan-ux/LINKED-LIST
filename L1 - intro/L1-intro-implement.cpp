@@ -7,7 +7,7 @@ using namespace std;
      tail : points to last Node of linked list
 
 */
-
+// T-U-F
 class Node{ // --> [ Data , next_ptr ]
      public:
      int val; // Data

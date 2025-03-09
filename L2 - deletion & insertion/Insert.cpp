@@ -14,12 +14,15 @@ class Node{ // --> [ Data , next_ptr ]
 };
 void print(Node* head){
      Node* temp = head;
+     cout<<'\n';
      while(temp){
-          cout<<temp->val<<" ";
+          cout<<temp->val<<" -> ";
           temp = temp->next;
      }
+     cout<<"NULL\n";
 }
 Node* ArrayToLinkedlist(int arr[] , int n){
+     if(n == 0) return nullptr;
      Node* head = new Node(arr[0] , nullptr); // head pointing to first element
      Node* mover = head; // it will be moving while iterating
 
@@ -36,7 +39,7 @@ Node* ArrayToLinkedlist(int arr[] , int n){
 
 
 Node* Insert_head(Node* head , int ele){
-     if(head == NULL || head->next == nullptr) {
+     if(head == NULL) {
           Node* temp = new Node(ele,nullptr);
           return temp;
      }
@@ -44,12 +47,72 @@ Node* Insert_head(Node* head , int ele){
      return temp;
 }
 
+Node* Insert_tail(Node* head , int ele){
+     if(head == NULL){
+          return new Node(ele,nullptr);
+     }
+     Node* temp = head;
+
+     while(temp->next != nullptr){
+         temp = temp->next;
+     }
+     temp->next = new Node(ele,nullptr);
+     return head;
+}
+
+Node* Insert_kth_pos(Node* head , int ele , int k){
+     if(head == NULL){
+          if(k == 1){
+               return  new Node(ele,nullptr);
+          }else{
+               return nullptr;
+          }
+     }
+     if(k == 1){
+          Node* temp = new Node(ele , head);
+          return head;
+     }
+
+     Node* temp = head;
+     int count = 0;
+
+     while(temp != NULL){
+          count++;
+          if(count == k-1){
+               Node* X = new Node(ele,temp->next);
+               temp->next = X;
+               return head;
+          }
+          temp = temp->next;
+     }
+}
+
+Node* Insert_before_val(Node* head , int val, int ele){
+     if(head == NULL) return nullptr;
+     if(head->val == val) return new Node(ele , head);
+
+     Node* temp = head;
+     while(temp){
+          if(temp->next->val == val){
+               Node* X = new Node(ele , temp->next);
+               temp->next = X;
+               return head;
+          }
+          temp = temp->next;
+     }
+
+     
+}
+
 int main(){
 
-     int array[5] = {2,4,6,7,8}; 
-     Node* head = ArrayToLinkedlist(array,1);
+     int array[5] = {2,3,4,5,6}; 
+     Node* head = ArrayToLinkedlist(array,5);
 
-     head = Insert_head(head , 0);
+     // head = Insert_head(head , 0);
+     // head = Insert_tail(head , 8);
+     // head = Insert_kth_pos(head , 10 ,4);
+     head = Insert_before_val(head , 6 ,100);
 
      print(head);
 
