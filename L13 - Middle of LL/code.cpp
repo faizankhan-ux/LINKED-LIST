@@ -28,55 +28,56 @@ Node* ArrayToLinkedList(vector<int> arr) {
     return head;
 }
 
-Node* makeLoop(Node* head , int val){
-    Node* temp = head;
-    while(temp->next) temp = temp->next;
-    Node* X = new Node(100,head->next);
-    temp->next = X;
-
-    return head;
+int GetLen(Node* head){
+     int len = 0;
+     Node* temp = head;
+     while(temp){
+          len++;
+          temp = temp->next;
+     }
+     return len;
 }
 
 Node* Brute(Node* head){
-     unordered_map<Node* , int> mpp;
+     int n = GetLen(head);
 
-       Node* temp = head;
-        while(temp){
-            if(mpp[temp] == 0) mpp[temp]++;
-            else return temp;
-            temp = temp->next;
-        }
-        return NULL;
+     int cnt = 0;
+     int mid = (n/2) + 1;
+
+     Node* temp = head;
+
+     while(temp){
+          cnt++;
+          if(cnt == mid) return temp;
+          temp = temp->next;
+     }
+     return nullptr;
+     //Time complexity : O(N + N/2)
 }
+
+/*
+  Tortise and hares algorithm : using slow and a fast pointer
+*/
 
 Node* Optimal(Node* head){
      Node* slow = head;
      Node* fast = head;
 
      while(fast && fast->next){
-        slow = slow->next;
-        fast = fast->next->next;
-
-        if(slow == fast){
-            slow = head;
-            while(slow != fast){
-                slow = slow->next;
-                fast = fast->next;
-            }
-            return slow;
-        }
-    }
-    return NULL;
+          slow = slow->next;
+          fast = fast->next->next;
+     }
+     return slow;
 
 }
 
 int main() {
-    vector<int> arr = {1, 2, 3, 4, 5};
+    vector<int> arr = {1, 2, 3, 4, 5, 6};
     Node* head = ArrayToLinkedList(arr);
-    head = makeLoop(head,200);
 
-    cout<<(Optimal(head))->val;
+    head = Brute(head);
 
-    //print(head);
+
+    print(head);
     return 0;
 }
